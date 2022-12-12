@@ -11,9 +11,9 @@ const newClientConfig = {
 
 const newClient = new NewClient(newClientConfig);
 const clients = { old: oldClient, new: newClient };
-const batchSize = 500;
-const maxEvents = 1000000000; // 100 hundred million
-
+const batchSize = 1000;
+const maxEvents = 100000000; // 100 hundred million
+async function main() {
     const domainEvents = {
       old: "v5.domain-events.polygon-mumbai.mangrove.streams.proxima.one",
       //new: "proxima.mangrove.polygon-mumbai.domain-events.0_1",
@@ -45,18 +45,21 @@ const maxEvents = 1000000000; // 100 hundred million
       old: "v1.new-tokens.polygon-mumbai.fungible-token.streams.proxima.one",
       //new: "proxima.ft.polygon-mumbai.new-tokens.0_2"
     };
-    streamConsistencyCheck("mangrove-domain-events", domainEvents, maxEvents);
-    streamConsistencyCheck("mangrove-strategies", strategies, maxEvents);
-    streamConsistencyCheck("mangrove-new-tokens", newTokens, maxEvents);
-    streamConsistencyCheck("eth-main", ethMain, maxEvents);
-    streamConsistencyCheck("eth-goerli", ethGoerli, maxEvents);
-    streamConsistencyCheck("polygonMumbai", polygonMumbai, maxEvents);
-    streamConsistencyCheck("polygonNewTokens", polygonNewTokens, maxEvents);
+    return await Promise.all([
+        streamConsistencyCheck("mangrove-domain-events", domainEvents, maxEvents),
+        streamConsistencyCheck("mangrove-strategies", strategies, maxEvents),
+        streamConsistencyCheck("mangrove-new-tokens", newTokens, maxEvents),
+        streamConsistencyCheck("eth-main", ethMain, maxEvents),
+        streamConsistencyCheck("eth-goerli", ethGoerli, maxEvents),
+        streamConsistencyCheck("polygonMumbai", polygonMumbai, maxEvents),
+        streamConsistencyCheck("polygonNewTokens", polygonNewTokens, maxEvents)
+    ])
+}
 
 async function streamConsistencyCheck(
   folderName: string,
   streams: { old: string; new?: string },
-  limit: number = 1000000000
+  limit: number = 100000000
 ) {
   let eventsProcessed = 0;
   try {
@@ -88,3 +91,8 @@ async function streamConsistencyCheck(
       return;
   }
 }
+
+
+main().then(()=> {
+    console.log("Finished")
+})

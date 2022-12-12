@@ -12,10 +12,8 @@ const newClientConfig = {
 const newClient = new NewClient(newClientConfig);
 const clients = { old: oldClient, new: newClient };
 const batchSize = 1000;
-const maxEvents = 100000000; // 100 hundred million
+const maxEvents = 1000000000; // 100 hundred million
 
-async function main() {
-  try {
     const domainEvents = {
       old: "v5.domain-events.polygon-mumbai.mangrove.streams.proxima.one",
       //new: "proxima.mangrove.polygon-mumbai.domain-events.0_1",
@@ -54,10 +52,6 @@ async function main() {
     streamConsistencyCheck("eth-goerli", ethGoerli, maxEvents);
     streamConsistencyCheck("polygonMumbai", polygonMumbai, maxEvents);
     streamConsistencyCheck("polygonNewTokens", polygonNewTokens, maxEvents);
-  } catch (e) {
-    console.log(e);
-  }
-}
 
 async function streamConsistencyCheck(
   folderName: string,
@@ -85,7 +79,7 @@ async function streamConsistencyCheck(
     }
   } catch (e) {
     console.log(e);
+  } finally {
+      return;
   }
 }
-
-main();

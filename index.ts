@@ -11,7 +11,7 @@ const newClientConfig = {
 
 const newClient = new NewClient(newClientConfig);
 const clients = { old: oldClient, new: newClient };
-const batchSize = 1000;
+const batchSize = 500;
 const maxEvents = 1000000000; // 100 hundred million
 
     const domainEvents = {
@@ -67,12 +67,17 @@ async function streamConsistencyCheck(
       );
       writeStreamToFile(folderName, streams.old, oldEvents);
 
+
       if (streams.new) {
         const newEvents = await clients.new.fetchStreamEvents(
           streams.new,
           batchSize
         );
         writeStreamToFile(folderName, streams.new, newEvents);
+      }
+      if (oldEvents.length < batchSize) {
+        console.log(folderName + " Finished: " + eventsProcessed + oldEvents.length)
+        return
       }
       eventsProcessed += batchSize;
       console.log(folderName + " Events Processed: " + eventsProcessed)

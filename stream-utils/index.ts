@@ -2,10 +2,12 @@ import {outputFileSync } from "fs-extra"
 
 
 export function writeStreamToFile(folder: string, streamName: string, events: any[]) {
-    if (events[0]) {
+    if (events && events[0]) {
         const fileName = "./streams/" + folder + "/" + streamName + "/" + events[0]["id"]
         const rawString = JSON.stringify(events)
         outputFileSync(fileName, rawString)
+    } else {
+        console.log(events)
     }
 }
 

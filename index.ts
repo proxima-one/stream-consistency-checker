@@ -81,7 +81,7 @@ async function streamConsistencyCheck(
         writeStreamToFile(folderName, streams.new, newEvents);
       }
       eventsProcessed += batchSize;
-      console.log("Events Processed: ", eventsProcessed)
+      console.log(folderName + " Events Processed: " + eventsProcessed)
     }
   } catch (e) {
     console.log(e);

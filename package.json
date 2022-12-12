@@ -22,5 +22,8 @@
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.0"
   }
 }

@@ -4,15 +4,14 @@ import { writeStreamToFile } from "./stream-utils";
 
 //streams to compare
 const oldClientURI = "streams.cluster.amur.proxima.one:443";
-const oldClient = new OldClient(oldClientURI);
 const newClientConfig = {
   endpoint: "https://streams.api.proxima.one",
 };
 
-const newClient = new NewClient(newClientConfig);
-const clients = { old: oldClient, new: newClient };
+
 const batchSize = 1000;
 const maxEvents = 100000000; // 100 hundred million
+
 async function main() {
     const domainEvents = {
       old: "v5.domain-events.polygon-mumbai.mangrove.streams.proxima.one",
@@ -61,6 +60,9 @@ async function streamConsistencyCheck(
   streams: { old: string; new?: string },
   limit: number = 100000000
 ) {
+  const oldClient = new OldClient(oldClientURI);
+  const newClient = new NewClient(newClientConfig);
+  const clients = { old: oldClient, new: newClient };
   let eventsProcessed = 0;
   try {
     while (true && limit > eventsProcessed) {

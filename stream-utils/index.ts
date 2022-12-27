@@ -1,9 +1,9 @@
 import {outputFileSync } from "fs-extra"
 
 
-export function writeStreamToFile(folder: string, streamName: string, events: any[]) {
+export function writeStreamToFile(directory: string, folder: string, streamName: string, events: any[]) {
     if (events && events[0]) {
-        const fileName = "./streams/" + folder + "/" + streamName + "/" + events[0]["id"]
+        const fileName =  directory +  "/streams/" + folder + "/" + streamName + "/" + events[0]["id"]
         const rawString = JSON.stringify(events)
         outputFileSync(fileName, rawString)
     } else {

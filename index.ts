@@ -8,6 +8,8 @@ const newClientConfig = {
   endpoint: "https://streams.api.proxima.one",
 };
 
+const DIRECTORY = "."
+
 
 const batchSize = 1000;
 const maxEvents = 100000000; // 100 hundred million
@@ -70,7 +72,7 @@ async function streamConsistencyCheck(
         streams.old,
         batchSize
       );
-      writeStreamToFile(folderName, streams.old, oldEvents);
+      writeStreamToFile(DIRECTORY, folderName, streams.old, oldEvents);
 
 
       if (streams.new) {
@@ -78,7 +80,7 @@ async function streamConsistencyCheck(
           streams.new,
           batchSize
         );
-        writeStreamToFile(folderName, streams.new, newEvents);
+        writeStreamToFile(DIRECTORY, folderName, streams.new, newEvents);
       }
       if (oldEvents.length < batchSize) {
         console.log(folderName + " Finished: " + eventsProcessed + oldEvents.length)

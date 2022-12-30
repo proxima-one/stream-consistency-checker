@@ -66,7 +66,6 @@ export function parseEvent(event: StreamEvent): any {
     return {
         "id": event.offset.toString(),
         "undo": event.undo,
-      //  "offset": event.offset.toString(),
         "timestamp": event.timestamp,
         "value": value,
     }
